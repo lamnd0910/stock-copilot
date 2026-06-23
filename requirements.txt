@@ -1,0 +1,11 @@
+vnstock>=4.0.0
+faiss-cpu
+sentence-transformers
+fastapi
+uvicorn[standard]
+google-generativeai
+pydantic-settings
+python-dotenv
+numpy
+pytest
+ruff
