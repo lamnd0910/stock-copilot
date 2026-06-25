@@ -14,7 +14,7 @@ def main(k=5, gold_path="eval/gold.jsonl"):
     print("Đang nạp model embedding (lần đầu tải về nên hơi lâu)...")
     r = Retriever()
     print("Nạp xong, bắt đầu chấm điểm...")
-    gold = [json.loads(l) for l in open(gold_path, encoding="utf-8")]
+    gold = [json.loads(line) for line in open(gold_path, encoding="utf-8")]
     recalls, rrs = [], []
     for ex in gold:
         ids = [d["id"] for d, _ in r.search(ex["question"], k=k)]

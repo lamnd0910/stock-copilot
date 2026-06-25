@@ -1,11 +1,13 @@
-import json, numpy as np, faiss
+import json
+import faiss
+import numpy as np
 from sentence_transformers import SentenceTransformer
 from app.config import settings
 
 class Retriever:
     def __init__(self, docs_path="data/docs.jsonl"):
         self.model = SentenceTransformer(settings.embed_model)
-        self.docs = [json.loads(l) for l in open(docs_path, encoding="utf-8")]
+        self.docs = [json.loads(line) for line in open(docs_path, encoding="utf-8")]
         emb = self.model.encode([d["text"] for d in self.docs],
                                 normalize_embeddings=True)
         self.index = faiss.IndexFlatIP(emb.shape[1])   # cosine vì đã normalize
