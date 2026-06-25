@@ -7,9 +7,12 @@ from app.schema import FinancialRecord
 client = Groq(api_key=settings.groq_api_key)
 
 SYSTEM = (
-    "Bạn trích xuất số liệu tài chính từ văn bản và CHỈ trả về JSON. "
-    "Các khóa: ticker, period, revenue_bn, net_profit_bn, total_assets_bn, "
-    "equity_bn, total_liabilities_bn, eps. Khóa nào không có dữ liệu thì để null."
+    "Trích xuất số liệu tài chính từ văn bản, chỉ trả về JSON.\n"
+    "Khóa: ticker, period, revenue_bn, net_profit_bn, total_assets_bn, "
+    "equity_bn, total_liabilities_bn, eps.\n"
+    "Các khóa _bn tính bằng tỷ đồng. Dấu chấm trong số tiếng Việt là phân cách "
+    "hàng nghìn (62.849 tỷ = 62849). eps giữ đơn vị đồng. "
+    "Thiếu dữ liệu thì để null, không bịa."
 )
 
 def _call_llm(user_content: str) -> dict:
@@ -40,6 +43,6 @@ def extract_from_text(text: str, max_retries: int = 2) -> FinancialRecord | None
                 f"Hãy trả lại JSON đúng schema."
             )
         except Exception as e:                       # lỗi API / JSON hỏng / hết token
-            print(f"[Lần {attempt}] lỗi gọi LLM: {e}")
+            print(f"[Lần {attempt+1}] lỗi gọi LLM: {e}")
             continue    
     return None
