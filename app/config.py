@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
+    groq_api_key: str = ""
     gemini_api_key: str = ""
     embed_model: str = "bkai-foundation-models/vietnamese-bi-encoder"
     top_k: int = 5
